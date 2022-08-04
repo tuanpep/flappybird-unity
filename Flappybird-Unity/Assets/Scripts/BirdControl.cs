@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BirdControl : MonoBehaviour
 {
-    private const float JUMP_AMOUNT = 5.5F;
+    private const float JUMP_AMOUNT = 7.5F;
     private Rigidbody2D birdRigidbody2D;
     private Vector3 rotateObject;
 
@@ -14,15 +14,22 @@ public class BirdControl : MonoBehaviour
     }
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             Jump();
         }
+
+
+        float rotation = birdRigidbody2D.velocity.y * 0.2f;
+        if (transform.rotation.z > 0.2f && rotation > 0) rotation = 0;
+        else if (transform.rotation.z < 0f && rotation < 0) rotation = 0;
+        else if (transform.rotation.z < -0.3f && rotation <= 0) rotation = -10;
+        transform.Rotate(0, 0, rotation, Space.Self);
     }
 
     private void Jump()
     {
-        transform.Rotate(0, 0, 15);
         birdRigidbody2D.velocity = Vector2.up * JUMP_AMOUNT;
     }
 }
